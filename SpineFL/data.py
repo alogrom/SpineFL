@@ -125,7 +125,6 @@ def non_iid(dataset, num_users, shard_per_user):
             data_split[i].extend(label_idx_split[label_i].pop(idx))
     return data_split, label_split
 
-
 def non_iid_dirichlet(dataset, num_users, alpha):
     num_classes = len(dataset.classes)
 
