@@ -181,7 +181,6 @@ def combine_global_model_from_clients(global_model, user_idxs, clients_models_sh
 
 
 def run_global_test(global_model, dataset, device):
-    # 测试global model
     test_dataloader = make_dataloader(dataset['test'], batch_size=32)
     correct, total = 0, 0
     global_model.to(device)
