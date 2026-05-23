@@ -146,7 +146,6 @@ def pre_run_train(cfg, model, class_list, dataset, optimizer, deivce):
 
 
 def combine_global_model_from_clients(global_model, user_idxs, clients_models_shape, clients_models_params):
-    # 将clients集合赋值给global model
     client_num_model_param = OrderedDict()
     global_temp_params = OrderedDict()
     for k, v in global_model.state_dict().items():
@@ -164,14 +163,12 @@ def combine_global_model_from_clients(global_model, user_idxs, clients_models_sh
                     client_num_model_param[k][temp_shape] += 1
             else:
                 raise NameError('{} not in global_temp_params'.format(k))
-    # 获得取平均值之后的global_params
     for k in global_temp_params:
         global_temp_params[k] /= client_num_model_param[k]
     global_model.load_state_dict(global_temp_params)
 
 
 def run_global_test(global_model, dataset, device):
-    # 测试global model
     test_dataloader = make_dataloader(dataset['test'], batch_size=32)
     correct, total = 0, 0
     global_model.to(device)
