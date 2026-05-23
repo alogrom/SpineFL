@@ -27,7 +27,6 @@ cfg['flexfl'] = {
     'temperature': 3.0,
     'distill_epochs': 3,
     'grad_clip': 1.0,
-    'selection_mode': 'adaptive'
 }
 
 cfg['alpha']=1
