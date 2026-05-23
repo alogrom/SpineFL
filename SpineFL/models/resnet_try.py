@@ -119,6 +119,7 @@ class Block(nn.Module):
         self.idx[param_name + '.shortcut.weight'] = (third_channels, first_channels)
 
         return third_channels
+
     def get_idx_fixed_topk(self, first_channels, rate, param_name, fixed_ratio=0.2, topmode='absmax'):
         total_channels_conv1 = self.conv1.weight.shape[0]
         fixed_count_conv1 = int(fixed_ratio * total_channels_conv1 * rate)
@@ -227,6 +228,7 @@ class ResNet(nn.Module):
                 self.idx.update(blc.idx)
         self.idx['linear.weight'] = (torch.arange(self.linear.weight.shape[0]), first_channels)
         self.idx['linear.bias'] = torch.arange(self.linear.weight.shape[0])
+
     def get_idx_aware_grad(self, rate, select_mode, gradient):
         start_channels = (torch.arange(self.datashape[0]))
         first_channels = get_topk_index(gradient['conv'], int(rate * self.conv.weight.shape[0]), select_mode)
@@ -559,8 +561,6 @@ def resnet18(datashape, hidden_size, num_blocks, num_classes, track=False, model
     model = ResNet(datashape, hidden_size, Block, num_blocks, num_classes, model_rate, track)
     model.apply(init_param)
     return model
-
-
 
 
 if __name__ == '__main__':
